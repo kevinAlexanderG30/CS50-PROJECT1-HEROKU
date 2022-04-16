@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/styles.css" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>WEB-BOOKS: {% block title %}{% endblock %}</title>
+</head>
+<header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a id="hoverA" class="navbar-brand text-white" href="/">WEB-BOOKS</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                    <a id="hoverA" class="nav-link text-white" href="/">Search<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a id="hoverA" class="nav-link text-white" href="/logout">Logout<span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+                
+                <form action="/libro2" method="get" class="form-inline my-2 my-lg-0">
+                    <input name="busquedaLibro1" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                </div>
+            </nav>
+        </header>
+    
+
+
+<body class="body2 ">      
+    <div >
+        <div class="container">    
+            <div class="row">
+                {% for employee in employees.items %}
+                    <div class="column" >
+                        <span></span>
+                        <div class="card">
+                            <h2>{{ employee.title}}</h2>
+                            <p>{{ employee.author}} {{ employee.year}} {{ employee.isbn}}</p>
+                            <a href="{{url_for('paginaDeLibro',isbn=employee.isbn)}}">Read More</a>
+                        </div>
+                    </div>  
+                {% endfor %}    
+            </div>         
+        </div>
+        <p></p>
+        <div  class="container-fluid ">
+            <ul class="pagination  col-xs-12 justify-content-center">
+                {% if employees.has_prev %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('libro', page_num=employees.prev_num, isbn=busquedaLibro) }}">Previous</a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">Previous</span>
+                {% endif %}
+                </li>
+                
+                {% for page in employees.iter_pages(left_edge=3, right_edge=3) %}
+                {% if page %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('libro', page_num=page, isbn=busquedaLibro) }}">{{ page }}</a></li>
+                {% else %}
+                <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li> 
+                {% endif %}
+                {% endfor %}
+                
+                {% if employees.has_next %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('libro', page_num=employees.next_num, isbn=busquedaLibro) }}">Next</a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">Next</span>
+                {% endif %}
+                </ul>
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+     <!--
+        <div class="container1">
+            {% for row in employees.items|batch(4) %}
+                <div class="row1">
+                    {% for colum in row.items %}
+                        <div class="box col">
+                            <span></span>
+                            <div class="content">
+                                <h2>{{colum.title}}</h2>
+                                <p>Autor: {{colum.author}}<br>Año: {{colum.year}}<br>Isbn: {{colum.isbn}}</p>
+                                <a href="{{url_for('paginaDeLibro',isbn=colum.isbn)}}">Read More</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>       
+            {% endfor %}
+        </div> -->
+
+        <!--
+            <div class="box">
+            <span></span>
+            <div class="content">
+                <h2>Card two</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <a href="#">Read More</a>
+            </div>
+            </div>
+
+            <div class="box">
+            <span></span>
+            <div class="content">
+                <h2>Card Three</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <a href="#">Read More</a>
+            </div>
+            </div>
+            
+        </div>
+            -->
+
+
+
+    <!--
+        <section class="section">
+            <div class="container">
+                {% for row in resultado|batch(4) %}
+                    <div class="row">
+                        {% for colum in row %}
+                            <div class="col">
+                                <div class="page-content">
+                                    <div  class="card">
+                                        <div class="content">
+                                            <h2 class="title">{{colum.title}}</h2>
+                                            <p class="copy">Check out all of these gorgeous mountain trips with beautiful views of, you guessed it, the mountains</p>
+                                            <button class="btn">View Trips</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    -->
