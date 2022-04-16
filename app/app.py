@@ -1,21 +1,13 @@
-import re
-from select import select
-from turtle import title
 from flask import Flask, jsonify, redirect, render_template, request, session
 from operator import length_hint
 from flask_session import Session
-from tempfile import mkdtemp
-from pkg_resources import fixup_namespace_packages
-from requests import post
-from sqlalchemy import create_engine, or_, text
+from sqlalchemy import create_engine, or_
 from sqlalchemy.orm import scoped_session, sessionmaker
-from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 import requests
 from flask_sqlalchemy import SQLAlchemy  
 from flask import redirect, session
 from functools import wraps
-
 
 
 app = Flask(__name__)
