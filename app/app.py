@@ -325,19 +325,44 @@ def api(isbn):
     isbn1 = api1(isbn1)
     selector = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn":isbn}).fetchall()
     # print(isbn)
+
+    if selector == []:
+        return jsonify({
+            "error": "404",
+            "Message": "Puede ver la documentacion en '/api' :D"
+            }),
+    
     lista = []
 
     for i in selector:
         lista.append(list(i))
-    print(f"{lista}")
+    
+
+    #print(f"{lista}")
     title = lista[0][2]
     year = lista[0][4]
     isbn = lista[0][1]
     author = lista[0][3]
-    average_score = isbn1["items"][0]["volumeInfo"]["averageRating"]
-    review_count = isbn1["items"][0]["volumeInfo"]["ratingsCount"]
+    
+
+    try:
+        average_score = isbn1['items'][0]['volumeInfo']['ratingsCount']
+        review_count = isbn1['items'][0]['volumeInfo']['averageRating']
+    except:
+        average_score,review_count = 0,0
+
+
     #title = isbn["items"][0]["volumeInfo"]["title"]
     #author  = isbn["items"][0]["volumeInfo"]["authors"]
     #year = isbn["items"][0]["volumeInfo"]["authors"]
     # print(title)
-    return jsonify({"author": author, "year": year, "isbn": isbn, "title": title, "average_score": average_score, "review_count": review_count })
+    return jsonify({"author": author, 
+                    "year": year, 
+                    "isbn": isbn, 
+                    "title": title, 
+                    "average_score": average_score, 
+                    "review_count": review_count })
+
+@app.errorhandler(404)
+def notFound(e):
+    return render_template("404.html")
